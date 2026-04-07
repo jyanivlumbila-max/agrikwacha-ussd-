@@ -1,23 +1,16 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 
 app = Flask(__name__)
 
 @app.route('/ussd', methods=['POST', 'GET'])
 def ussd():
-    phoneNumber = request.values.get("phoneNumber", "")
-    text = request.values.get("text", "")
+    # SINGLE LINE RESPONSE - NO LINE BREAKS
+    response_text = "CON Welcome to AgriKwacha. Your farming payment platform. 1. Register Delivery 2. My Payments 3. Confirm Delivery 4. Help 0. Exit"
     
-    if text == "":
-        response = "CON Welcome to AgriKwacha. Your farming payment platform.\n"
-        response += "1. Register Delivery\n"
-        response += "2. My Payments\n"
-        response += "3. Confirm Delivery\n"
-        response += "4. Help\n"
-        response += "0. Exit"
-    else:
-        response = "CON Welcome to AgriKwacha. 1.Register Delivery. 2.My Payments. 3.Confirm Delivery. 4.Help. 0.Exit"
+    resp = Response(response_text, status=200)
+    resp.headers['Content-Type'] = 'text/plain'
     
-    return response, 200
+    return resp
 
 @app.route('/', methods=['GET'])
 def home():
