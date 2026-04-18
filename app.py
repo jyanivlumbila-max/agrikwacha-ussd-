@@ -367,3 +367,17 @@ def debug_farmer():
 if __name__ == '__main__':
     init_google_sheets()
     app.run(host='0.0.0.0', port=8080)
+    @app.route('/debug/sheet-data', methods=['GET'])
+def debug_sheet_data():
+    if not sheet_farmers:
+        return {"error": "Sheet not connected"}
+    
+    try:
+        records = sheet_farmers.get_all_records()
+        return {
+            "total_records": len(records),
+            "first_record": records[0] if records else None,
+            "column_headers": list(records[0].keys()) if records else []
+        }
+    except Exception as e:
+        return {"error": str(e)}
