@@ -1,5 +1,0 @@
-flask
-gunicorn
-requests
-gspread
-oauth2client
